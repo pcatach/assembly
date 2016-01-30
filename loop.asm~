@@ -1,0 +1,26 @@
+section .bss			;seccao onde se declaram variaveis
+	num resb 1		;ponterio para um endereco de 1 byte alocado para num
+
+section .text			;seccao de comandos
+	global _start		;iniciar execucao aqui
+
+_start:
+	mov ecx, 10		;mover 10 pro registrador ecx (contador)
+	mov eax, '1'		;mover string '1' para o eax (acumulador)
+
+l1:
+	mov [num], eax		;armazena eax ('1') no endereco apontado por num
+	mov eax, 4		;eax = 4 (chamada de write)
+	mov ebx, 1		;saida
+	push ecx		;escreve ecx no topo da pilha (espaco da memoria que funciona como uma pilha)
+	mov ecx, num		;ecx = num
+	mov edx, 1		;edx = 1
+	int 0x80		;imprime ecx (num)
+	mov eax, [num]		;eax = conteudo do endereco apontado por num
+	sub eax, '0'		;subtrai os dois valores ('1'-'0')
+	inc eax			;incrementa eax de 1 ('2')
+	add eax, '0'		;soma os dois valores
+	pop ecx			;reseta ecx
+	loop l1
+	mov eax, 1		;exit
+	int 0x80

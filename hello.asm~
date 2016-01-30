@@ -1,0 +1,19 @@
+section .data				     ;nessa secao se definem constantes
+	msg	db	"Hello World!", 0x0a ;string hello world
+	len	equ	$-msg		     ;calcula o tamanho da string msg
+
+section .text			;inicio da seccao de texto
+	global _start		;onde deve comecar a execucao
+
+_start:				;label start - a execucao inicia aqui
+	;; write
+	mov ebx, 1		;ficheiro de saida - stdin
+	mov ecx, msg		;apontador para o buffer
+	mov edx, len		;tamanho do buffer
+	mov eax, 4		;chamada de write ao sistema
+	int 0x80		;interrupcao
+
+	;; exit
+	mov eax, 1		;move valor 1 para eax (chamada de exit)
+	mov ebx, 0		;retornar com valor de saida 0
+	int 0x80		;interrupcao (chamada do kernel)
